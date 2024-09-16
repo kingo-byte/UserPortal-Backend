@@ -10,8 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-//use cors to allow any
-
 app.get("/", (req, res) => {
     res.send ("Welcome to User Portal Backend");    
 });
