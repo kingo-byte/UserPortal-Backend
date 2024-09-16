@@ -2,7 +2,8 @@ import { insertUser, getUsers, deleteUser, updateUser } from './users.js';
 import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
- 
+import { v4 as uuidv4 } from 'uuid';
+
 config();
 
 const app = express();
@@ -26,6 +27,7 @@ app.get("/api/users", async (req, res) => {
 
 app.post("/api/users", async (req, res) => {
     const user = req.body;
+    user._id = uuidv4();
     await insertUser(user);
 
     return res.sendStatus(200);
