@@ -1,15 +1,16 @@
 import { insertUser, getUsers, deleteUser, updateUser } from './users.js'; 
-import { v4 as uuidv4 } from 'uuid';
-import express, { application } from 'express';
+import express from 'express';
 import { config } from 'dotenv';
+import cors from 'cors';
  
 config();
 
 const app = express();
+
 app.use(express.json());
+app.use(cors());
 
 //use cors to allow any
-
 
 app.get("/", (req, res) => {
     res.send ("Welcome to User Portal Backend");    
