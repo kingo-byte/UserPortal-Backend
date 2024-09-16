@@ -1,26 +1,47 @@
-import { insertUser, getUsers, deleteUser, updateUser } from './users.js';
-import { addCollection } from './repository.js';   
+import { insertUser, getUsers, deleteUser, updateUser } from './users.js'; 
 import { v4 as uuidv4 } from 'uuid';
+import express, { application } from 'express';
+import { config } from 'dotenv';
+ 
+config();
 
-//------- this is how you can insert a user -------
-// let user = 
-// {
-//     "_id": uuidv4(),   
-//     "username": "Mohammad",
-//     "password": "12345",
-// }
-// await insertUser(user);
+const app = express();
+app.use(express.json());
 
-
-//------- this is how you can get users -------
-let users = await getUsers();   
-console.table(users);
+//use cors to allow any
 
 
-//------- this is how you can delete a user -------
-//await deleteUser('6f8a34b3-c95f-40f3-ab74-2b596e6a1f84'); 
+app.get("/", (req, res) => {
+    res.send ("Welcome to User Portal Backend");    
+});
 
+app.listen(process.env.PORT);
 
-//------- this is how you can update a user -------
-//await updateUser({_id: '5719d484-a45a-478c-b333-a68f22c9ebe9', username: 'Rony', password: 'newest password'});       
+console.log('listening on port:', process.env.PORT);  
+
+app.get("/api/users", async (req, res) => {
+    const result = await getUsers();
+    
+    return res.json(result);
+});
+
+app.post("/api/users", async (req, res) => {
+    const user = req.body;
+    await insertUser(user);
+
+    return res.sendStatus(200);
+});
+
+app.delete("/api/users/:id", async (req, res) => {
+    const id = req.params.id;
+    await deleteUser(id);
+    return res.sendStatus(200);
+});
+
+app.patch("/api/users", async (req, res) => {
+    const user = req.body;
+    await updateUser(user);
+    return res.sendStatus(200);
+})
+  
 

@@ -17,6 +17,7 @@ export async function insertUser(user)
         console.log('this is the result', result);    
 
         mongoClient.close();
+        
     } catch (error) {
       console.error(error);
     }
