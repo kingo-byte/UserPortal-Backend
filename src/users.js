@@ -1,24 +1,32 @@
-import connectToDb from './repository.js'   
+import connectToDb from './repository.js'
+import { config } from 'dotenv';
+
+config();
+
+const uri = process.env.USERPORTAL_DB_URI;
 
 export async function insertUser(user) 
 {
-    const uri = process.env.USERPORTAL_DB_URI;
-    const mongoClient = await connectToDb(uri);
+    try 
+    {
+        const mongoClient = await connectToDb(uri);
 
-    const usersCollection = mongoClient.db().collection('Users');
-    const result = await usersCollection.insertOne(user);
+        const usersCollection = mongoClient.db().collection('Users');
+        const result = await usersCollection.insertOne(user);
 
-    console.log('this is the result', result);    
+        console.log('this is the result', result);    
 
-    mongoClient.close();
+        mongoClient.close();
+    } catch (error) {
+      console.error(error);
+    }
 }
 
 export async function getUsers()
 {
     try {
-        const uri = process.env.USERPORTAL_DB_URI;
         const mongoClient = await connectToDb(uri); 
-    
+
         const usersCollection = mongoClient.db().collection('Users');
         const users = await usersCollection.find({}).toArray();
     
@@ -32,24 +40,32 @@ export async function getUsers()
 
 export async function deleteUser(id)
 {
-    const uri = process.env.USERPORTAL_DB_URI;
-    const mongoClient = await connectToDb(uri);    
-    const usersCollection = mongoClient.db().collection('Users');
-    const result = await usersCollection.deleteOne({_id: id});
-    console.log('this is the result', result);
+    try {
+        const mongoClient = await connectToDb(uri);    
+        const usersCollection = mongoClient.db().collection('Users');
+        const result = await usersCollection.deleteOne({_id: id});
+        console.log('this is the result', result);
+    
+        mongoClient.close();
+    } catch (error) {
+        console.error(error);   
+    }
 
-    mongoClient.close();
 }
 
 export async function  updateUser(params) {
-    const uri = process.env.USERPORTAL_DB_URI;  
-    const mongoClient = await connectToDb(uri); 
+    try 
+    {
+        const mongoClient = await connectToDb(uri); 
 
-    const usersCollection = mongoClient.db().collection('Users');
-
-    const result = await usersCollection.updateOne({_id: params._id}, {$set: params});
-
-    mongoClient.close();
-
-    console.log('this is the result', result);
+        const usersCollection = mongoClient.db().collection('Users');
+    
+        const result = await usersCollection.updateOne({_id: params._id}, {$set: params});
+    
+        mongoClient.close();
+    
+        console.log('this is the result', result);
+    } catch (error) {
+        console.error(error);
+    }
 }
