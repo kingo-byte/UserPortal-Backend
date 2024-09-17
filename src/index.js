@@ -24,25 +24,24 @@ app.get("/api/users", async (req, res) => {
     
     return res.json(result);
 });
-
 app.post("/api/users", async (req, res) => {
     const user = req.body;
     user._id = uuidv4();
     await insertUser(user);
 
-    return res.sendStatus(200);
+    return JSON.parse("Ok");
 });
 
 app.delete("/api/users/:id", async (req, res) => {
     const id = req.params.id;
     await deleteUser(id);
-    return res.sendStatus(200);
+    return JSON.parse("Ok");
 });
 
 app.patch("/api/users", async (req, res) => {
     const user = req.body;
     await updateUser(user);
-    return res.sendStatus(200);
+    return JSON.parse("Ok");
 })
   
 
