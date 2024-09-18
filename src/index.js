@@ -10,6 +10,7 @@ const app = express();
 
 app.use(express.json());
 
+//trigger pipeLine
 const corsOptions = {
     origin: 'https://kingo-byte.github.io', // Allow only this origin
     methods: ['GET', 'POST', 'DELETE', 'PATCH'], // Allowed methods
