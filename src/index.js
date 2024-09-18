@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-    origin: 'http://localhost:4200', // Allow only this origin
+    origin: 'https://kingo-byte.github.io', // Allow only this origin
     methods: ['GET', 'POST', 'DELETE', 'PATCH'], // Allowed methods
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
     optionsSuccessStatus: 200 // Some legacy browsers choke on status 204
